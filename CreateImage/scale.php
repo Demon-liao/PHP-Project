@@ -36,6 +36,11 @@ class ImagesScale{
 		);
 		return $imageArr;
 	}
+	/*
+	 *降图片保存到服务器本地
+	 *@promo $url 来源图片的路径
+	 *@promo $filename 图片名，参数为图片保存的路径地址
+	 */
 	function grabImage($url, $filename = '') {
 		if($url == '') {
 			return false; //如果 $url 为空则返回 false;
@@ -62,6 +67,9 @@ class ImagesScale{
 			"type"=>$ext_name
 		);
 	}
+	/*
+	 *图片缩放
+	 */
 	public function setScale(){
 		$imageSize=$this->getImageSize();
 		if($imageSize==-1){
@@ -105,8 +113,11 @@ class ImagesScale{
 		//化整
 		$NewHeight=intval($NewHeight);
 		$NewWidth=intval($NewWidth);
-		if($NewWidth==0||$NewHeight==0){
-			return false; //判断图片宽度设置的是否太小
+		if($NewWidth==0){
+			$NewWidth=1; //判断图片宽度，如果小于0，则赋值为1
+		}
+		if($NewHeight==0){
+			$NewHeight=1;//判断图片高度，如果小于0，则赋值为1
 		}
 		switch($type){
 			case ".jpg":

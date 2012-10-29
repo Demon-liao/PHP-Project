@@ -17,6 +17,7 @@ class ImageCopy{
 		$this->ImageWidth=$ImageWidth;
 		$this->ImageHeight=$ImageHeight;
 	}
+	//获取图片信息，高宽的值
 	public function getImageSize(){
 		list($width,$height)=getimagesize($this->ImageUrl);
 		$imageArr=array(
@@ -30,14 +31,20 @@ class ImageCopy{
 		$NewImage=imagecreate($this->ImageWidth,$this->ImageHeight);
 		//设置图像的背景颜色，白色
 		imagecolorallocate($NewImage, 255, 255, 255);
+		// 读取图片
 		$Image=imagecreatefromjpeg($this->ImageUrl);
+		//获取图片信息
 		$imageSize=$this->getImageSize();
+		//计算高宽的值
 		$x=($this->ImageWidth-$imageSize['width'])/2;
 		$y=($this->ImageHeight-$imageSize['height'])/2;
+		//进行图片的合并操作
 		imagecopy($NewImage,$Image,$x,$y,0,0,$imageSize['width'],$imageSize['height']);
 		$NewImageUrl=$this->Path."/".basename($this->ImageUrl,".jpg")."_".$this->ImageWidth."_".$this->ImageHeight.".jpg";
+		// 输出新的图片
 		imagejpeg($NewImage,$NewImageUrl,100);
 		imagedestroy($NewImage);
+		//最后返回图片保存路径
 		return array(
 			"imageUrl"=>$NewImageUrl
 		);
